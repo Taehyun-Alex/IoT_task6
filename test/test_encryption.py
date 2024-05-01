@@ -2,6 +2,7 @@ import binascii
 import unittest
 
 from app.encrypt import Encryptor
+from app.key_utils import key64
 
 
 class TestAdapter:
@@ -19,8 +20,8 @@ class TestEncryption(unittest.TestCase):
 
     def test_can_instantiate_encryptor_object(self):
         try:
-            _ = Encryptor(self.plaintext_key)
-            self.assertTrue(True)
+            enc = Encryptor(self.plaintext_key)
+            self.assertIsInstance(enc.key64_, bytes)
         except binascii.Error:
             self.assertFalse(True)
 

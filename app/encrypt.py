@@ -1,23 +1,23 @@
 # Import cryptography library
-
+from cryptography.fernet import Fernet
 from app.key_utils import key32, key64
 
 
 class Encryptor:
     def __init__(self, key):
         key32_ = key32(key)
-        key64_ = key64(key32_)
-
-        # We need to do something with the key...
+        self.key64_ = key64(key32_)
 
     def _encrypt(self, data: bytes) -> bytes:
         """
         This method performs the actual encryption on {data}..
 
-        :param data: Data to be encrypted
+        :param data: Data to be encrypteda
         :return: Encrypted data
         """
-        raise NotImplementedError()
+        fernet = Fernet(self.key64_)
+        encrypted_data = fernet.encrypt(data)
+        return encrypted_data
 
     def encrypt(self, data) -> bytes:
         """
@@ -32,9 +32,9 @@ class Encryptor:
         :return: Encrypted data as a bytes object
         """
         if isinstance(data, str):
-            data = data.encode()
+            data = data.encode() # if the input is string
         elif hasattr(data, 'read_data'):
-            data = data.read_data()
+            data = data.read_data() # if the input is a TestAdapter object
         else:
             raise TypeError('Invalid input type')
 
