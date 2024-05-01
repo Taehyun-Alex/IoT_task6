@@ -21,8 +21,8 @@ class TestDecryption(unittest.TestCase):
 
     def test_can_instantiate_decryptor_object(self):
         try:
-            _ = Decryptor(self.plaintext_key)
-            self.assertTrue(True)
+            dec = Decryptor(self.plaintext_key)
+            self.assertIsInstance(dec.key64_, bytes)
         except binascii.Error:
             self.assertFalse(True)
 
